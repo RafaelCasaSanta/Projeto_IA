@@ -2,16 +2,9 @@ from enum import Enum
 from dataclasses import dataclass
 
 class AcoesJogador(Enum):
-    MOVER_CAIXA = 'MoverCaixa'
-    MOVER_PERSONAGEM = 'MoverPersonagem'
+    MOVER_JOGADOR = 'MoverJogador'
 
-class DirecaoMoverCaixa(Enum):
-    DIREITA = 'Direita'
-    ESQUERDA = 'Esquerda'
-    CIMA = 'Cima'
-    BAIXO = 'Baixo'
-
-class DirecaoMoverPersonagem(Enum):
+class DirecaoMoverJogador(Enum):
     DIREITA = 'Direita'
     ESQUERDA = 'Esquerda'
     CIMA = 'Cima'
@@ -20,12 +13,10 @@ class DirecaoMoverPersonagem(Enum):
 @dataclass
 class AcaoJogador():
     tipo: str
-    parametros: tuple = tuple()     
+    parametros: str   
      
+        
     @classmethod
-    def mover_caixa(cls, x: int, y: int, direcao: DirecaoMoverCaixa) -> 'AcaoJogador':
-        return cls(AcoesJogador.MOVER_CAIXA, (x, y, direcao))
-
-    @classmethod
-    def andar(cls, x: int, y: int, direcao: DirecaoMoverPersonagem) -> 'AcaoJogador':
-        return cls(AcoesJogador.MOVER_PERSONAGEM, (x, y, direcao))
+    def MOVER_JOGADOR(cls, direcao: DirecaoMoverJogador) -> 'AcaoJogador':
+        return cls(AcoesJogador.MOVER_JOGADOR, (direcao))
+    

@@ -1,4 +1,4 @@
-from .humano import AgentePrepostoESHumano
+from agentes.humano import AgentePrepostoESHumano
 
 def construir_agente(*args, **kwargs):
     """ Método factory para uma instância Agente arbitrária, de acordo com os

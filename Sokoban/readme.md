@@ -5,11 +5,11 @@
 > Esboce uma representação visual (tela de jogo) para  cada um desses estados.
 
 ### Estado Inicial
-![](img/IMAGEM.jpeg)
+![](wiki/img/IMAGEM.jpeg)
 ### Estado Intermediario
 ![](img/intermediario.jpeg)
 ### Estado Final
-![](img/final.jpeg)
+![](wiki/img/final.jpeg)
 
 
 

@@ -1,9 +1,10 @@
+import numpy as np
 from typing import Tuple
 
 
 from agentes.abstrato import AgenteAbstrato
 from percepcoes import PercepcoesJogador
-from acoes import AcaoJogador, DirecaoMoverCaixa
+from acoes import AcaoJogador, DirecaoMoverJogador
 
 class AgentePrepostoESHumano(AgenteAbstrato):
     
@@ -11,54 +12,41 @@ class AgentePrepostoESHumano(AgenteAbstrato):
         """ Inspeciona a disposicao dos elementos no objeto de visao e escreve
         na tela para o usuário saber o que seu agente está percebendo.
         """
-        print("\nNivel.")
-
-        linhas, colunas = percepcao_mundo.dimensoes
-        start_linha, stop_linha = linhas//2, -1 * linhas//2
-        start_coluna, stop_coluna = -1 * (colunas//2), colunas//2 + 1
-
-        print("+-3210123+")
-        for linha in range(start_linha, stop_linha, -1):
-            print_linha = f'{abs(linha)} '
-            for coluna in range(start_coluna, stop_coluna, 1):
-                if (coluna, linha) in percepcao_mundo.pos_bolinhas:
-                    print_linha += 'o'
-                else:
-                    print_linha += '.'
-        
-            print(print_linha)
+        print("\nNivel 01.")        
+        print("1-parede 2-buraco 3-caixa 4-jogador")
+        print("Tabuleiro:")
+        print(percepcao_mundo.tabuleiro)
         print('-')
-
         if percepcao_mundo.mensagem_jogo:
             print(f'Mensagem do jogo: {percepcao_mundo.mensagem_jogo}')
     
     def escolherProximaAcao(self):
         jogada = None
         while not jogada:
-            jogada = input("Escreva sua jogada no formato [x,y,d]: ").strip()
+            jogada = input("Escreva a direção (d|e|c|b): ").strip()
             try:                
-                x, y, d = AgentePrepostoESHumano.parse_jogada(jogada)            
+                 d = AgentePrepostoESHumano.parse_jogada(jogada)            
             except ValueError:
                 jogada = None
                 print("Jogada entrada é inválida. Tente novamente.")
 
-        return AcaoJogador.mover_bolinha(x, y, d)
+        return AcaoJogador.MOVER_JOGADOR(d)
 
     @staticmethod
-    def parse_jogada(entrada: str) -> Tuple[int, int, str]:
+    def parse_jogada(entrada: str) -> str:
         direcoes = {
-            'd': DirecaoMoverCaixa.DIREITA,
-            'e': DirecaoMoverCaixa.ESQUERDA,
-            'c': DirecaoMoverCaixa.CIMA,
-            'b': DirecaoMoverCaixa.BAIXO
+            'd': DirecaoMoverJogador.DIREITA,
+            'e': DirecaoMoverJogador.ESQUERDA,
+            'c': DirecaoMoverJogador.CIMA,
+            'b': DirecaoMoverJogador.BAIXO
         }
 
-        raw_x, raw_y, raw_d = entrada.split(',')
-        x, y, d = int(raw_x), int(raw_y), direcoes.get(raw_d.lower())
-        if not d:
+        raw_d = entrada
+        direcao =  direcoes.get(raw_d.lower())
+        if not direcao:
             raise ValueError()
         
-        return x, y, d
+        return direcao
 
 
 
