@@ -1,13 +1,14 @@
 import queue
 import time
 from typing import Tuple
+from agentes.problemas.sokoban import *
 
 from percepcoes import PercepcoesJogador
-from acoes import AcaoJogador, DirecaoMoverBolinha
+from acoes import AcaoJogador, DirecaoMoverJogador
 
-from .abstrato import AgenteAbstrato
-from .problemas.sokoban import ProblemaSokoban
-from .buscadores.busca import busca_arvore_bfs
+from agentes.abstrato import AgenteAbstrato
+from agentes.problemas.sokoban import ProblemaSokoban
+from agentes.buscadores.busca import busca_arvore_bfs
 
 
 class AgenteAutomaticoBfs(AgenteAbstrato):
@@ -15,31 +16,33 @@ class AgenteAutomaticoBfs(AgenteAbstrato):
         super().__init__()
 
         self.problema: ProblemaSokoban = None
-        self.solucao: list = None
+        self.solucao: list = ('e','c','c','c','e','e','b','d','c','d','b','b','b','c','c','e','e','b','b','b','d','d')
 
     def adquirirPercepcao(self, percepcao_mundo: PercepcoesJogador):
         """ Inspeciona a disposicao dos elementos no objeto de visao."""
         AgenteAutomaticoBfs.desenhar_tabuleiro(percepcao_mundo)
-
-        if not self.solucao:
-            self.problema = Sokoban()  # faltando alguma parte que n ta vindo na cabeça agora. # 
             
 
-    def escolherProximaAcao(self):
+    def escolherProximaAcao(self,ind:int):
 
-     if not self.solucao:
-            no_solucao = busca_arvore_bfs(self.problema)
-            self.solucao = no_solucao.caminho_acoes()
-            print(len(self.solucao), self.solucao)
-            if not self.solucao:
-                raise Exception("Agente BFS não encontrou solução.")
+      if not self.solucao:
+          no_solucao = busca_arvore_bfs(self.problema)
+          self.solucao = no_solucao.caminho_acoes()
+          print(len(self.solucao), self.solucao)
+          if not self.solucao:
+              raise Exception("Agente BFS não encontrou solução.")
 
-    acao = self.solucao.pop(0)
-    print(f"Próxima ação é {acao}.")
-    time.sleep(2)
+          acao = self.solucao.pop(0)
+          print(f"Próxima ação é {acao}.")
+          time.sleep(2)
 
-    direcoes= AgenteAutomaticoBfs.traduzir_acao_jogo(acao)
-    return AcaoJogador.mover_personagem(direcao)
+          direcoes= AgenteAutomaticoBfs.traduzir_acao_jogo(acao)
+
+      if  self.solucao:
+            acao = self.solucao[ind]
+            direcoes=AgenteAutomaticoBfs.traduzir_acao_jogo(acao)
+            
+      return AcaoJogador.MOVER_JOGADOR(direcoes)
 
    
     @staticmethod
@@ -51,12 +54,11 @@ class AgenteAutomaticoBfs(AgenteAbstrato):
             'b': DirecaoMoverJogador.BAIXO
         }
 
-         raw_d = entrada
-        direcao =  direcoes.get(raw_d.lower())
-        if not direcao:
-            raise ValueError()
-        
-        return direcao
+         raw_d = acao
+         direcao =  direcoes.get(raw_d.lower())
+         if not direcao:
+              raise ValueError() 
+         return direcao
 
 
     @staticmethod
@@ -65,12 +67,10 @@ class AgenteAutomaticoBfs(AgenteAbstrato):
         está percebendo.
         """
         
+        print("Tabuleiro")
+        print(percepcao_mundo.tabuleiro)
 
-
-         print("Tabuleiro")
-         print(percepcao_mundo.tabuleiro)
-
-       if percepcao_mundo.mensagem_jogo:
+        if percepcao_mundo.mensagem_jogo:
             print(f'Mensagem do jogo: {percepcao_mundo.mensagem_jogo}')
 
          

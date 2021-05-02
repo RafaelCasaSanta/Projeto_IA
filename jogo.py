@@ -14,16 +14,17 @@ def ler_tempo(em_turnos=False):
 
 
 def iniciar_jogo():
-    
+    ind = 0
     # Inicializar e configurar jogo
     jogo = construir_jogo()
     personagem_jogador = jogo.registrarAgentePersonagem(Personagens.JOGADOR_SOKOBAN)
     # Escolhe o jogador:
-    personagem = input("Escolha um personagem (1 - Humano 2 - BFS: ").strip()
-    if personagem == 1:
-      agente_jogador = construir_agente(tipos_agentes.PREPOSTO_HUMANO, Personagens.JOGADOR_SOKOBAN)
+    personagem = input("Escolha um personagem (1 - Humano 2 - BFS): ").strip()
+    print(personagem)
+    if personagem == '1':
+      agente_jogador = construir_agente(tipos_agentes.PREPOSTO_HUMANO)
     else:
-      agente_jogador = construir_agente(tipos_agentes.AUTO_BFS, Personagens.JOGADOR_SOKOBAN)
+      agente_jogador = construir_agente(tipos_agentes.AUTO_BFS)
 
     tempo_de_jogo = 0
     while not jogo.isFim():
@@ -31,10 +32,14 @@ def iniciar_jogo():
         # Mostrar mundo ao jogador
         ambiente_perceptivel = jogo.gerarCampoVisao(personagem_jogador)
         agente_jogador.adquirirPercepcao(ambiente_perceptivel)
-        
+
         # Decidir jogada e apresentar ao jogo
-        acao = agente_jogador.escolherProximaAcao()
+        if personagem == '1':
+         acao = agente_jogador.escolherProximaAcao()
+        else:
+         acao = agente_jogador.escolherProximaAcao(ind)
         jogo.registrarProximaAcao(personagem_jogador, acao)
+        ind = ind + 1
 
         # Atualizar jogo
         # tempo_corrente = ler_tempo()

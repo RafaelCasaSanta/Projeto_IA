@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Sequence, Set
+from typing import Sequence, Set, Tuple
 from dataclasses import dataclass
 
 
@@ -107,7 +107,7 @@ class ProblemaSokoban:
                  acoes_possiveis.append(Mover(posicao_jogador, 'baixo'))
             else:
               acoes_possiveis.append(Mover(posicao_jogador, 'baixo'))
-    return acoes_possiveis()
+            return acoes_possiveis()
           
           
         
@@ -153,9 +153,9 @@ class ProblemaSokoban:
 
     @staticmethod
     def teste_objetivo(estado: EstadoSokoban) -> bool:
-         if 2 not in estado.tabuleiro
-           return True
-        return False
+          if estado:
+            return True
+          return False
 
     @staticmethod
     def custo(inicial: EstadoSokoban, acao: Mover,
