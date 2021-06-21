@@ -19,12 +19,18 @@ def iniciar_jogo():
     jogo = construir_jogo()
     personagem_jogador = jogo.registrarAgentePersonagem(Personagens.JOGADOR_SOKOBAN)
     # Escolhe o jogador:
-    personagem = input("Escolha um personagem (1 - Humano 2 - BFS): ").strip()
+    personagem = input("Escolha um personagem (1 - Humano 2 - BFS  3 - Gulosa 4 - A*): ").strip()
     print(personagem)
     if personagem == '1':
       agente_jogador = construir_agente(tipos_agentes.PREPOSTO_HUMANO)
-    else:
+    elif personagem == '2':
       agente_jogador = construir_agente(tipos_agentes.AUTO_BFS)
+    elif personagem == '3':
+      agente_jogador = construir_agente(tipos_agentes.GULOSA)
+    elif personagem == '4':
+      agente_jogador = construir_agente(tipos_agentes.A_STAR)
+ 
+    
 
     tempo_de_jogo = 0
     while not jogo.isFim():
